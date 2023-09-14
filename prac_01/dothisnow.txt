@@ -1,0 +1,3 @@
+get number of gifts, students
+calculate gifts for each student, leftover gifts
+display gifts for each student, leftover gifts
