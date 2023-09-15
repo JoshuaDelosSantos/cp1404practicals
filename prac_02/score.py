@@ -7,6 +7,7 @@ import random
 
 
 def main():
+    """Get score and determine result; generate random integer using random module and determine result """
     score = float(input("Enter score: "))
     result = determine_result(score)
     print(result)
@@ -17,6 +18,7 @@ def main():
 
 
 def determine_result(score):
+    """Determine result"""
     if score < 0 or score > 100:
         result = "Invalid score"
     elif score >= 90:
