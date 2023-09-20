@@ -1,9 +1,14 @@
+"""
+CP1404: Prac2 - score_menu.py
+"""
+
 from score import determine_result
 
 MENU = "(G)et a valid score\n(P)rint result\n(S)how stars\n(Q)uit"
 
 
 def main():
+    """Run the score menu program that gets a valid score and then presents a menu for the users to choose from"""
     score = get_valid_score()
     print(MENU)
     choice = input(">>> ").upper()
@@ -12,7 +17,7 @@ def main():
             score = get_valid_score()
         elif choice == "P":
             result = determine_result(score)
-            print(result)
+            print(f"{score} is {result}")
         elif choice == "S":
             print_stars(score)
         else:
@@ -23,6 +28,7 @@ def main():
 
 
 def get_valid_score():
+    """Get a valid score between 0 and 100 inclusive"""
     score = int(input("Score: "))
     while score < 0 or score > 100:
         print("Invalid score")
@@ -31,6 +37,7 @@ def get_valid_score():
 
 
 def print_stars(score):
+    """Print star characters"""
     print("*" * score, end=' ')
     print()
 
