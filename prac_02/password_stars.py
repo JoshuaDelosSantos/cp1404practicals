@@ -1,4 +1,8 @@
-minimum_password_length = 5
+"""
+Prac_02: password_stars.py
+"""
+
+MINIMUM_PASSWORD_LENGTH = 5
 
 
 def main():
@@ -13,9 +17,9 @@ def print_star(password):
 
 
 def get_password():
-    """Get a password that is not and empty string"""
+    """Get a password that has characters according to the constant"""
     password = input("Enter password: ")
-    while len(password) < minimum_password_length:
+    while len(password) < MINIMUM_PASSWORD_LENGTH:
         print("Password not long enough!")
         password = input("Enter password: ")
     return password
