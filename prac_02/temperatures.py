@@ -42,8 +42,7 @@ def convert_celsius_to_fahrenheit(celsius):
 
 def get_temperature(prompt):
     """Get a temperature"""
-    temperature = float(input(prompt))
-    return temperature
+    return float(input(prompt))
 
 
 main()
