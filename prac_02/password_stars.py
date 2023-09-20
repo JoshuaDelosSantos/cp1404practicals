@@ -1,5 +1,5 @@
 """
-Prac_02: password_stars.py
+CP1404: Prac_02 - password_stars.py
 """
 
 MINIMUM_PASSWORD_LENGTH = 5
