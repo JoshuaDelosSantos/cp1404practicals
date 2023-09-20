@@ -10,11 +10,11 @@ def main():
     """Get score and determine result; generate random integer using random module and determine result """
     score = float(input("Enter score: "))
     result = determine_result(score)
-    print(result)
+    print(f"Your score of {score} is {result}")
 
     random_score = random.randint(1, 100)
     random_score_result = determine_result(random_score)
-    print(random_score_result)
+    print(f"A random score was generated from 1-100: {random_score} and it is {random_score_result}")
 
 
 def determine_result(score):
