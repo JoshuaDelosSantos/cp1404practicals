@@ -8,7 +8,7 @@ FILENAME = "subject_data.txt"
 
 def main():
     data = get_data()
-    print(data)
+    display_subject_details(data)
 
 
 def get_data():
@@ -29,9 +29,16 @@ def get_data():
         for line in input_file:
             line = line.strip()
             parts = line.split(',')
-            parts[2] = int(parts[2])
+            parts[2] = int(parts[2])  # Ignore warning, don't worry it's a controlled file :)
             data.append(parts)
     return data
+
+
+def display_subject_details(data):
+    """Display subject details"""
+    for subject_details in data:
+        subject, teacher_name, number_of_students = subject_details
+        print(f"{subject} is taught by {teacher_name} and has {number_of_students} students")
 
 
 main()
