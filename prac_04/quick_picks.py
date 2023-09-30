@@ -10,5 +10,7 @@ for i in range(NUMBER_OF_LINES):
     numbers = []
     for j in range(quick_picks):
         numbers.append(random.randint(LOW_NUMBER, HIGH_NUMBER))
-    print(sorted(numbers))
-
+    numbers.sort()
+    for number in numbers:
+        print(f"{number:2}", end=' ')
+    print()
