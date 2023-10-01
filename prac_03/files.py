@@ -1,15 +1,14 @@
 """I tried to show variety, hopefully I did them correctly :D"""
 
-IN_FILE_NAME = "name.txt"
-OUT_FILE_NAME = "name.txt"
-
 # 1.
+OUT_FILE_NAME = "name.txt"
 name = input("Name: ")
 with open(OUT_FILE_NAME, 'w') as out_file:
     print(name, file=out_file)
 
 
 # 2.
+IN_FILE_NAME = "name.txt"
 with open(IN_FILE_NAME, 'r') as in_file:
     for line in in_file:
         print(f"Your name is {line.strip()}!")
