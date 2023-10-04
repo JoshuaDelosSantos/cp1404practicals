@@ -7,13 +7,13 @@ FILENAME = "subject_data.txt"
 
 
 def main():
-    data = get_data()
-    display_subject_details(data)
+    subject_data = get_data()
+    display_subject_details(subject_data)
 
 
 def get_data():
     """Read data from file formatted like: subject,lecturer,number of students."""
-    data = []
+    subject_data = []
     # input_file = open(FILENAME)
     # for line in input_file:
     #     print(line)  # See what a line looks like
@@ -30,15 +30,15 @@ def get_data():
             line = line.strip()
             parts = line.split(',')
             parts[2] = int(parts[2])  # Ignore warning, don't worry it's a controlled file :)
-            data.append(parts)
-    return data
+            subject_data.append(parts)
+    return subject_data
 
 
-def display_subject_details(data):
+def display_subject_details(subject_data):
     """Display subject details"""
-    for subject_details in data:
+    for subject_details in subject_data:
         subject, teacher_name, number_of_students = subject_details
-        print(f"{subject} is taught by {teacher_name} and has {number_of_students} students")
+        print(f"{subject} is taught by {teacher_name:12} and has {number_of_students:3} students")
 
 
 main()
