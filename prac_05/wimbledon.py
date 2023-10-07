@@ -9,7 +9,8 @@ FILENAME = "wimbledon.csv"
 
 def main():
     data = load_from_file()
-    year_to_match = process_data(data)
+    winner_to_count, unique_winning_countries = process_data(data)
+    print(winner_to_count, unique_winning_countries)
 
 
 def load_from_file():
@@ -19,7 +20,15 @@ def load_from_file():
 
 
 def process_data(data):
-    pass
+    winner_to_count = {}
+    details = [details.split(',') for details in data]
+    winners = [winner[2] for winner in details]
+    for winner in winners:
+        winner_to_count[winner] = winner_to_count.get(winner, 0) + 1
+
+    winning_countries = [country[1] for country in details]
+    unique_winning_countries = set(winning_countries)
+    return winner_to_count, unique_winning_countries
 
 
 def display_information():
