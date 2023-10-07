@@ -4,4 +4,13 @@ COLOUR_TO_HEXADECIMALS = {"Absolute Zero": 	"#0048ba", "Baby Blue": "#89cff0", "
 
 
 colour = input("Enter a colour: ").title()
-print(f"{COLOUR_TO_HEXADECIMALS[colour]}")
+while colour != "":
+    try:
+        print(f"{COLOUR_TO_HEXADECIMALS[colour]}")
+    except KeyError:
+        print("That colour is not in the dictionary yet!")
+
+    colour = input("Enter a colour: ").title()
+
+print("Finished.")
+
