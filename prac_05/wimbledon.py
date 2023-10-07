@@ -32,6 +32,7 @@ def process_data(data):
 
 
 def display_information(winner_to_count, unique_winning_countries):
+    print("Wimbledon Champions:")
     for winner in winner_to_count:
         print(f"{winner} {winner_to_count[winner]}")
     print(f"\nThese {len(unique_winning_countries)} countries have won Wimbledon: ")
