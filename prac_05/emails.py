@@ -6,6 +6,7 @@ Actual: 24 minutes
 
 
 def main():
+    """Create a dictionary of email to name and display the contents"""
     email_to_name = {}
 
     email = input("Email: ")
