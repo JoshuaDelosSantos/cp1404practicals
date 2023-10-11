@@ -6,7 +6,7 @@ Actual: 31 minutes :(
 word_to_count = {}
 
 text = input("Text: ")
-words = text.split(" ")
+words = text.split()
 longest_word = max(len(word) for word in words)
 
 for word in words:
