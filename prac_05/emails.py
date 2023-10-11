@@ -12,24 +12,22 @@ def main():
     while email != "":
         name = extract_name(email)
         email_to_name[email] = name
-        choice = input(f"Is your name {name}? (Y/n) ").upper()
 
+        choice = input(f"Is your name {name}? (Y/n) ").upper()
         if choice != "Y" and choice != "":
             new_name = input("Name: ")
             email_to_name[email] = new_name
         email = input("Email: ")
 
-    for email in email_to_name:
-        print(f"{email_to_name[email].title()} ({email})")
+    for email, name in email_to_name.items():
+        print(f"{name.title()} ({email})")
 
 
 def extract_name(email):
-    parts = email.split('@')
-    possible_name = parts[0]
-    if "." in possible_name:
-        name = possible_name.split(".")
-        return " ".join(name).title()
-    return parts[0].title()
+    """Extract name from email address"""
+    possible_name = email.split('@')[0]
+    parts = possible_name.split('.')
+    return " ".join(parts).title()
 
 
 main()
