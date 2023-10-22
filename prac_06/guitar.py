@@ -2,7 +2,7 @@
 prac_06 - guitar.py
 
 Estimated time: 30 mins
-Actual time:
+Actual time: 10 mins
 """
 
 
@@ -24,4 +24,5 @@ class Guitar:
         return current_year - self.year
 
     def is_vintage(self, current_year):
+        """Determine if guitar age is >= 50"""
         return current_year - self.year >= 50
