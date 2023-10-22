@@ -2,7 +2,7 @@
 prac_06 - programming_language.py
 
 Estimated time: 30 mins
-Actual time:
+Actual time: 7 mins
 """
 
 
