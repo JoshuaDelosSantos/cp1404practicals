@@ -9,7 +9,7 @@ Actual time: 7 mins
 class ProgrammingLanguage:
     """Represent a programming language object"""
 
-    def __init__(self, field="", typing="".title(), reflection=True, year=0):
+    def __init__(self, field="", typing="", reflection=True, year=0):
         """Initialise programming language instance"""
         self.field = field
         self.typing = typing
