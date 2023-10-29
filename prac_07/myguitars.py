@@ -10,9 +10,11 @@ FILENAME = "guitars.csv"
 
 
 def main():
-    data = load_data_from_file(FILENAME)
-    guitars = [Guitar(name, year, cost) for name, year, cost in data]
-    print(guitars)
+    parts = load_data_from_file(FILENAME)
+    guitars = [Guitar(name, year, cost) for name, year, cost in parts]
+    guitars.sort()
+    for guitar in guitars:
+        print(guitar)
 
 
 def load_data_from_file(filename):
