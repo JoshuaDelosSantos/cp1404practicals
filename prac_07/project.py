@@ -2,7 +2,7 @@
 prac_07 - project.py
 
 Estimated time: 60 mins
-Actual time:
+Actual time: 5 mins
 """
 
 
@@ -22,4 +22,5 @@ class Project:
             f", completion: {self.completion_percentage}%")
 
     def is_complete(self):
+        """Determine if instance is complete based on percentage"""
         return self.completion_percentage == 100
