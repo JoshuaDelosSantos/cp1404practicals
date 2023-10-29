@@ -20,3 +20,6 @@ class Project:
         return (
             f"{self.name} : Start Date={self.start_date} Priority={self.priority} Cost Estimate={self.cost_estimate}"
             f"Completion Percentage={self.completion_percentage}")
+
+    def is_complete(self):
+        return self.completion_percentage == 100
