@@ -26,7 +26,11 @@ def main():
             projects = [Project(name, start_date, int(priority), float(cost_estimate), float(completion_percentage))
                         for name, start_date, priority, cost_estimate, completion_percentage in data]
         elif choice == "S":
-            save_projects()
+            filename = input("Enter filename(.txt): ")
+            # while filename == "":
+            #     print("Filename cannot be blank!")
+            #     filename = input("Enter filename(.txt): ")
+            save_projects(projects, filename)
         elif choice == "D":
             display_projects(projects)
         elif choice == "F":
@@ -51,8 +55,12 @@ def load_projects(filename):
     return data
 
 
-def save_projects():
-    pass
+def save_projects(projects, filename):
+    with open(filename, 'w') as out_file:
+        print(f"Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage", file=out_file)
+        for project in projects:
+            print(f"{project.name}\t{project.start_date}\t{project.priority}\t{project.cost_estimate}\t"
+                  f"{project.completion_percentage}", file=out_file)
 
 
 def display_projects(projects):
