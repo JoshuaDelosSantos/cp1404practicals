@@ -25,7 +25,6 @@ def main():
             data = load_projects('projects.txt')
             projects = [Project(name, start_date, int(priority), float(cost_estimate), float(completion_percentage))
                         for name, start_date, priority, cost_estimate, completion_percentage in data]
-            print(projects)
         elif choice == "S":
             save_projects()
         elif choice == "D":
@@ -33,7 +32,7 @@ def main():
         elif choice == "F":
             filter_projects_by_date(projects)
         elif choice == "A":
-            add_new_project()
+            add_new_project(projects)
         elif choice == "U":
             update_project()
         else:
@@ -95,8 +94,15 @@ def filter_projects_by_date(projects):
         print(project)
 
 
-def add_new_project():
-    pass
+def add_new_project(projects):
+    print("Let's add a new project")
+    name = input("Name: ")
+    start_date = input("Start date (dd/mm/yy): ")
+    priority = int(input("Priority: "))
+    cost_estimate = float(input("Cots estimate: $"))
+    completion_percentage = float(input("Percent complete: "))
+
+    projects.append(Project(name, start_date, priority, cost_estimate, completion_percentage))
 
 
 def update_project():
