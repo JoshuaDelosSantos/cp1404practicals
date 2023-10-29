@@ -15,3 +15,8 @@ class Project:
         self.cost_estimate = cost_estimate
         self.completion_percentage = completion_percentage
 
+    def __repr__(self):
+        """Return string representation of data for Project."""
+        return (
+            f"{self.name} : Start Date={self.start_date} Priority={self.priority} Cost Estimate={self.cost_estimate}"
+            f"Completion Percentage={self.completion_percentage}")
