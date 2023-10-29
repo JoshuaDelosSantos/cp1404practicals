@@ -1,7 +1,7 @@
 """
 prac_07 - project_management.py
 
-Estimated time: 90 mins
+Estimated time: 120 mins
 Actual time:
 """
 
@@ -18,43 +18,81 @@ def main():
     choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":
-            load_projects()
+            # filename = input("Enter filename(.txt): ")
+            # while filename == "":
+            #     print("Filename cannot be blank!")
+            #     filename = input("Enter filename(.txt): ")
+            data = load_projects('projects.txt')
+            projects = [Project(name, start_date, int(priority), float(cost_estimate), float(completion_percentage))
+                        for name, start_date, priority, cost_estimate, completion_percentage in data]
+            print(projects)
         elif choice == "S":
             save_projects()
         elif choice == "D":
-            display_projects()
+            display_projects(projects)
         elif choice == "F":
-            filter_projects()
+            filter_projects_by_date(projects)
         elif choice == "A":
             add_new_project()
         elif choice == "U":
             update_project()
         else:
             print("Invalid choice!")
-            choice = input(">>> ").upper()
+        choice = input(">>> ").upper()
         print(MENU)
 
 
-def load_projects():
-    filename = input("Enter filename(.txt): ")
-
-    while filename == "":
-        print("Filename cannot be blank!")
-        filename = input("Enter filename(.txt): ")
-
-
+def load_projects(filename):
+    data = []
+    with open(filename, 'r') as in_file:
+        in_file.readline()  # Ignore header
+        for line in in_file:
+            parts = line.strip().split('\t')
+            data.append(parts)
+    return data
 
 
 def save_projects():
     pass
 
 
-def display_projects():
-    pass
+def display_projects(projects):
+    incomplete_projects = []
+    completed_projects = []
+
+    for project in projects:
+        if project.is_complete():
+            completed_projects.append(project)
+        else:
+            incomplete_projects.append(project)
+
+    print("Incomplete projects:")
+    for project in incomplete_projects:
+        print(f"\t{project}")
+
+    print("Completed projects:")
+    for project in completed_projects:
+        print(f"\t{project}")
 
 
-def filter_projects():
-    pass
+def filter_projects_by_date(projects):
+    filtered_projects = []
+
+    date_string = input("Show projects that start after date (dd/mm/yy): ")  # e.g., "30/9/2022"
+    values = [int(part) for part in date_string.split('/')]
+    filter_date = datetime.date(values[2], values[1], values[0])
+    print(filter_date)
+
+    for project in projects:
+        project_date_string = project.start_date
+        project_date_values = [int(part) for part in project_date_string.split('/')]
+        project_date = datetime.date(project_date_values[2], project_date_values[1], project_date_values[0])
+
+        if project_date >= filter_date:
+            filtered_projects.append(project)
+
+    for project in filtered_projects:
+        print(project)
 
 
 def add_new_project():
