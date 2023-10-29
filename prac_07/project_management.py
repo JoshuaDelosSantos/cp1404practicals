@@ -2,7 +2,7 @@
 prac_07 - project_management.py
 
 Estimated time: 120 mins
-Actual time:
+Actual time: Functionality=90 mins Final=
 """
 
 import datetime
@@ -13,24 +13,20 @@ MENU = ("(L)oad projects\n(S)ave projects\n(D)isplay projects\n(F)ilter projects
 
 
 def main():
+    """Run a program that load and save a data file and use a list of Project objects."""
+    projects = []
     print(MENU)
 
     choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":
-            # filename = input("Enter filename(.txt): ")
-            # while filename == "":
-            #     print("Filename cannot be blank!")
-            #     filename = input("Enter filename(.txt): ")
-            data = load_projects('projects.txt')
+            in_filename = get_valid_string("Filename: ")
+            data = load_projects(in_filename)
             projects = [Project(name, start_date, int(priority), float(cost_estimate), float(completion_percentage))
                         for name, start_date, priority, cost_estimate, completion_percentage in data]
         elif choice == "S":
-            filename = input("Enter filename(.txt): ")
-            # while filename == "":
-            #     print("Filename cannot be blank!")
-            #     filename = input("Enter filename(.txt): ")
-            save_projects(projects, filename)
+            out_filename = get_valid_string("Filename: ")
+            save_projects(projects, out_filename)
         elif choice == "D":
             display_projects(projects)
         elif choice == "F":
@@ -45,7 +41,16 @@ def main():
         print(MENU)
 
 
+def get_valid_string(prompt):
+    string = input(prompt)
+    while string == "":
+        print("Input can not be empty!")
+        string = input(prompt)
+    return string
+
+
 def load_projects(filename):
+    """Load projects from file."""
     data = []
     with open(filename, 'r') as in_file:
         in_file.readline()  # Ignore header
@@ -56,6 +61,7 @@ def load_projects(filename):
 
 
 def save_projects(projects, filename):
+    """Save projects into file."""
     with open(filename, 'w') as out_file:
         print(f"Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage", file=out_file)
         for project in projects:
@@ -64,6 +70,7 @@ def save_projects(projects, filename):
 
 
 def display_projects(projects):
+    """Display projects."""
     incomplete_projects = []
     completed_projects = []
 
@@ -83,6 +90,7 @@ def display_projects(projects):
 
 
 def filter_projects_by_date(projects):
+    """Filter projects by date."""
     filtered_projects = []
 
     date_string = input("Show projects that start after date (dd/mm/yy): ")  # e.g., "30/9/2022"
@@ -103,6 +111,7 @@ def filter_projects_by_date(projects):
 
 
 def add_new_project(projects):
+    """Add new project."""
     print("Let's add a new project")
     name = input("Name: ")
     start_date = input("Start date (dd/mm/yy): ")
@@ -114,6 +123,7 @@ def add_new_project(projects):
 
 
 def update_project(projects):
+    """Update a Project completion percentage and/or priority."""
     for i, project in enumerate(projects):
         print(f"{i} {project}")
 
