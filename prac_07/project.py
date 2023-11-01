@@ -2,7 +2,7 @@
 prac_07 - project.py
 
 Estimated time: 60 mins
-Actual time: 5 mins
+Actual time: 10 mins
 """
 
 
@@ -21,6 +21,18 @@ class Project:
             f"{self.name}, start:{self.start_date}, priority {self.priority}, estimate: ${self.cost_estimate:,.2f}"
             f", completion: {self.completion_percentage}%")
 
+    def __lt__(self, other):
+        """Determine if a Project is < other Project based on priority."""
+        return self.priority < other.priority
+
+    def __eq__(self, other):
+        """Determine if a Project is equal to other Project based on priority."""
+        return self.priority == other.priority
+
+    def __gt__(self, other):
+        """Determine if a Project is > other Project based on priority."""
+        return self.priority == other.priority
+
     def is_complete(self):
-        """Determine if instance is complete based on percentage"""
+        """Determine if instance is complete based on percentage."""
         return self.completion_percentage == 100
