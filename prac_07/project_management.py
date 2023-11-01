@@ -2,7 +2,7 @@
 prac_07 - project_management.py
 
 Estimated time: 120 mins
-Actual time: 90 mins
+Actual time: 118 mins
 """
 
 import datetime
@@ -172,22 +172,35 @@ def get_valid_project_details():
         except ValueError:
             print("Percent must be a number")
 
-    return name, start_date, priority, cost_estimate, completion_percentage
+    return name, start_date, priority, cost_estimate, completion_percentage  # No problem with warning
 
 
 def update_project(projects):
     """Update a Project completion percentage and/or priority."""
     for i, project in enumerate(projects):
         print(f"{i} {project}")
+    is_valid_project_choice = False
+    while not is_valid_project_choice:
+        try:
+            project_choice = int(input("Project choice: "))
+            chosen_project = projects[project_choice]
 
-    project_choice = int(input("Project choice: "))
-    chosen_project = projects[project_choice]
-    print(chosen_project)
+            if project_choice < 0:
+                print("No such thing!")
+            else:
+                is_valid_project_choice = True
+        except IndexError:
+            print("That project not in the list yet!")
+        except ValueError:
+            print("Must be a number!")
 
+    # Leave blank to retain existing values
     try:
         new_completion_percentage = float(input('New percentage: '))
-        chosen_project.completion_percentage = new_completion_percentage
-
+        chosen_project.completion_percentage = new_completion_percentage  # No problem with warning
+    except ValueError:
+        pass
+    try:
         new_priority = int(input("New Priority: "))
         chosen_project.priority = new_priority
 
