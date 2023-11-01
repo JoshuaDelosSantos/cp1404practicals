@@ -18,7 +18,7 @@ class Project:
     def __repr__(self):
         """Return string representation of data for Project."""
         return (
-            f"{self.name}, start:{self.start_date}, priority {self.priority}, estimate: ${self.cost_estimate:,.2f}"
+            f"{self.name}, start: {self.start_date}, priority {self.priority}, estimate: ${self.cost_estimate:,.2f}"
             f", completion: {self.completion_percentage}%")
 
     def __lt__(self, other):
