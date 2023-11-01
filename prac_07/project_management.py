@@ -8,8 +8,8 @@ Actual time: 90 mins
 import datetime
 from prac_07.project import Project
 
-MENU = ("(L)oad projects\n(S)ave projects\n(D)isplay projects\n(F)ilter projects by date\n"
-        "(A)dd new project\n(U)pdate project\n(Q)uit")
+MENU = ("- (L)oad projects\n- (S)ave projects\n- (D)isplay projects\n- (F)ilter projects by date\n"
+        "- (A)dd new project\n- (U)pdate project\n- (Q)uit")
 
 
 def main():
@@ -36,7 +36,8 @@ def main():
             filter_date = get_valid_date()
             filter_projects_by_date(projects, filter_date)
         elif choice == "A":
-            add_new_project(projects)
+            name, start_date, priority, cost_estimate, completion_percentage = get_valid_project_details()
+            projects.append(Project(name, start_date, priority, cost_estimate, completion_percentage))
         elif choice == "U":
             update_project(projects)
         else:
@@ -52,7 +53,7 @@ def get_valid_filename():
         part = input("Filename (.txt): ")
         if part == "":
             print("Input can not be empty!")
-        elif "." and "txt" not in part:
+        elif ".txt" not in part:
             print("Must have the right file extension!")
         else:
             is_valid_filename = True
@@ -74,7 +75,7 @@ def load_projects(filename):
 def save_projects(projects, filename):
     """Save projects into file."""
     with open(filename, 'w') as out_file:
-        print(f"Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage", file=out_file)
+        print("Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage", file=out_file)
         for project in projects:
             print(f"{project.name}\t{project.start_date}\t{project.priority}\t{project.cost_estimate}\t"
                   f"{project.completion_percentage}", file=out_file)
@@ -129,16 +130,50 @@ def filter_projects_by_date(projects, filter_date):
         print(project)
 
 
-def add_new_project(projects):
-    """Add new project."""
+def get_valid_project_details():
+    """Get valid project details."""
     print("Let's add a new project")
     name = input("Name: ")
-    start_date = input("Start date (dd/mm/yy): ")
-    priority = int(input("Priority: "))
-    cost_estimate = float(input("Cots estimate: $"))
-    completion_percentage = float(input("Percent complete: "))
+    while name == "":
+        print("Project name can not be empty")
+        name = input("Name: ")
 
-    projects.append(Project(name, start_date, priority, cost_estimate, completion_percentage))
+    start_date = get_valid_date()
+
+    is_valid_priority = False
+    while not is_valid_priority:
+        try:
+            priority = int(input("Priority (1-10): "))
+            if priority > 10 or priority < 1:
+                print("1 (Highest priority) - 10 (Lowest priority")
+            else:
+                is_valid_priority = True
+        except ValueError:
+            print("Priority must be an integer (1-10)")
+
+    is_valid_cost_estimate = False
+    while not is_valid_cost_estimate:
+        try:
+            cost_estimate = float(input("Cots estimate: $"))
+            if cost_estimate < 0:
+                print("It must cost you something or must be free (0)")
+            else:
+                is_valid_cost_estimate = True
+        except ValueError:
+            print("Must be a number")
+
+    is_valid_completion_percentage = False
+    while not is_valid_completion_percentage:
+        try:
+            completion_percentage = float(input("Percent complete: "))
+            if completion_percentage < 0 or completion_percentage > 100:
+                print("Must be 0-100")
+            else:
+                is_valid_completion_percentage = True
+        except ValueError:
+            print("Percent must be a number")
+
+    return name, start_date, priority, cost_estimate, completion_percentage
 
 
 def update_project(projects):
