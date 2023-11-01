@@ -2,7 +2,7 @@
 prac_07 - project_management.py
 
 Estimated time: 120 mins
-Actual time: Functionality=90 mins Final=
+Actual time: 90 mins
 """
 
 import datetime
@@ -14,39 +14,50 @@ MENU = ("(L)oad projects\n(S)ave projects\n(D)isplay projects\n(F)ilter projects
 
 def main():
     """Run a program that load and save a data file and use a list of Project objects."""
-    projects = []
+    projects = []  # Initialised to avoid warning in line 30
     print(MENU)
 
     choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":
-            in_filename = get_valid_string("Filename: ")
+            in_filename = get_valid_filename()
             data = load_projects(in_filename)
+            # Nested list with Project objects from load_projects data
             projects = [Project(name, start_date, int(priority), float(cost_estimate), float(completion_percentage))
                         for name, start_date, priority, cost_estimate, completion_percentage in data]
+            print(f"{len(projects)} projects loaded.")
         elif choice == "S":
-            out_filename = get_valid_string("Filename: ")
+            out_filename = get_valid_filename()
             save_projects(projects, out_filename)
         elif choice == "D":
+            projects.sort()  # Sorted by priority
             display_projects(projects)
         elif choice == "F":
-            filter_projects_by_date(projects)
+            filter_date = get_valid_date()
+            filter_projects_by_date(projects, filter_date)
         elif choice == "A":
             add_new_project(projects)
         elif choice == "U":
             update_project(projects)
         else:
             print("Invalid choice!")
-        choice = input(">>> ").upper()
         print(MENU)
+        choice = input(">>> ").upper()
+    print("Finished.")
 
 
-def get_valid_string(prompt):
-    string = input(prompt)
-    while string == "":
-        print("Input can not be empty!")
-        string = input(prompt)
-    return string
+def get_valid_filename():
+    is_valid_filename = False
+    while not is_valid_filename:
+        part = input("Filename (.txt): ")
+        if part == "":
+            print("Input can not be empty!")
+        elif "." and "txt" not in part:
+            print("Must have the right file extension!")
+        else:
+            is_valid_filename = True
+
+    return part  # No problem with potential undefined variable
 
 
 def load_projects(filename):
@@ -89,18 +100,26 @@ def display_projects(projects):
         print(f"\t{project}")
 
 
-def filter_projects_by_date(projects):
+def get_valid_date():
+    """Get a valid date."""
+    part = input("Show projects that start after date (dd/mm/yyyy): ")  # e.g., "30/09/2022"
+    while '/' not in part:
+        print("Make sure it formatted as dd/mm/yyyy")
+        part = input("Show projects that start after date (dd/mm/yyyy): ")
+    values = [int(part) for part in part.split('/')]
+
+    date = datetime.date(values[2], values[1], values[0])
+    return date
+
+
+def filter_projects_by_date(projects, filter_date):
     """Filter projects by date."""
     filtered_projects = []
 
-    date_string = input("Show projects that start after date (dd/mm/yy): ")  # e.g., "30/9/2022"
-    values = [int(part) for part in date_string.split('/')]
-    filter_date = datetime.date(values[2], values[1], values[0])
-    print(filter_date)
+    print(f"----Showing projects from {filter_date.strftime('%d/%b/%Y')}----")
 
     for project in projects:
-        project_date_string = project.start_date
-        project_date_values = [int(part) for part in project_date_string.split('/')]
+        project_date_values = [int(part) for part in project.start_date.split('/')]
         project_date = datetime.date(project_date_values[2], project_date_values[1], project_date_values[0])
 
         if project_date >= filter_date:
