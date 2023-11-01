@@ -33,8 +33,8 @@ def main():
             projects.sort()  # Sorted by priority
             display_projects(projects)
         elif choice == "F":
-            filter_date = get_valid_date()
-            filter_projects_by_date(projects, filter_date)
+            filter_date_string = get_valid_date_string()
+            filter_projects_by_date(projects, filter_date_string)
         elif choice == "A":
             name, start_date, priority, cost_estimate, completion_percentage = get_valid_project_details()
             projects.append(Project(name, start_date, priority, cost_estimate, completion_percentage))
@@ -101,27 +101,26 @@ def display_projects(projects):
         print(f"\t{project}")
 
 
-def get_valid_date():
-    """Get a valid date."""
-    part = input("Show projects that start after date (dd/mm/yyyy): ")  # e.g., "30/09/2022"
-    while '/' not in part:
-        print("Make sure it formatted as dd/mm/yyyy")
-        part = input("Show projects that start after date (dd/mm/yyyy): ")
-    values = [int(part) for part in part.split('/')]
+def get_valid_date_string():
+    """Get a valid date string in the 'dd/mm/yyyy' format."""
+    while True:
+        date_string = input("Enter a date (dd/mm/yyyy): ")
+        try:
+            date = datetime.datetime.strptime(date_string, '%d/%m/%Y').date()
+            return date.strftime('%d/%m/%Y')
+        except ValueError:
+            print("Invalid date format. Please use the 'dd/mm/yyyy' format.")
 
-    date = datetime.date(values[2], values[1], values[0])
-    return date
 
-
-def filter_projects_by_date(projects, filter_date):
+def filter_projects_by_date(projects, filter_date_string):
     """Filter projects by date."""
     filtered_projects = []
 
-    print(f"----Showing projects from {filter_date.strftime('%d/%b/%Y')}----")
+    print(f"----Showing projects from {filter_date_string}----")
+    filter_date = datetime.datetime.strptime(filter_date_string, '%d/%m/%Y').date()
 
     for project in projects:
-        project_date_values = [int(part) for part in project.start_date.split('/')]
-        project_date = datetime.date(project_date_values[2], project_date_values[1], project_date_values[0])
+        project_date = datetime.datetime.strptime(project.start_date, '%d/%m/%Y').date()
 
         if project_date >= filter_date:
             filtered_projects.append(project)
@@ -138,7 +137,7 @@ def get_valid_project_details():
         print("Project name can not be empty")
         name = input("Name: ")
 
-    start_date = get_valid_date()
+    start_date = get_valid_date_string()
 
     is_valid_priority = False
     while not is_valid_priority:
