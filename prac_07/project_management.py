@@ -22,8 +22,9 @@ def main():
     while choice != "Q":
         if choice == "L":
             filename = get_valid_filename()
-            data = load_projects(filename)
-
+            new_projects = load_projects(filename)
+            for project in new_projects:
+                projects.append(project)
         elif choice == "S":
             out_filename = get_valid_filename()
             save_projects(projects, out_filename)
@@ -42,11 +43,12 @@ def main():
             print("Invalid choice!")
         print(MENU)
         choice = input(">>> ").upper()
-    save_projects(projects, filename)
+    save_projects(projects, DEFAULT_FILENAME)
     print("Finished.")
 
 
 def get_valid_filename():
+    """Get a valid filename with the right file extension."""
     is_valid_filename = False
     while not is_valid_filename:
         part = input("Filename (.txt): ")
@@ -63,18 +65,27 @@ def get_valid_filename():
 def load_projects(filename):
     """Load projects from file."""
     projects = []
-    with open(filename, 'r') as in_file:
-        in_file.readline()  # Ignore header
-        for line in in_file:
-            parts = line.strip().split('\t')
-            name = parts[0]
-            start_date = parts[1]
-            priority = int(parts[2])
-            cost_estimate = float(parts[3])
-            completion_percentage = float(parts[4])
-            projects.append(Project(name, start_date, priority, cost_estimate, completion_percentage))
+    try:
+        with open(filename, 'r') as in_file:
+            in_file.readline()  # Ignore header
+            for line in in_file:
+                parts = line.strip().split('\t')
+                name = parts[0]
+                start_date = parts[1]
+                priority = int(parts[2])
+                cost_estimate = float(parts[3])
+                completion_percentage = float(parts[4])
+                projects.append(Project(name, start_date, priority, cost_estimate, completion_percentage))
 
-        print(f"{len(projects)} projects loaded.")
+            print(f"{len(projects)} projects loaded.")
+
+    except ValueError:
+        print("Make sure data in the file matches the format!\n"
+              "e.g. Name	Start Date	Priority	Cost Estimate	Completion Percentage")
+
+    except FileNotFoundError:
+        print("File not found!")
+
     return projects
 
 
