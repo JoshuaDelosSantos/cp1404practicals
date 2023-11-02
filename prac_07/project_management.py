@@ -10,22 +10,20 @@ from prac_07.project import Project
 
 MENU = ("- (L)oad projects\n- (S)ave projects\n- (D)isplay projects\n- (F)ilter projects by date\n"
         "- (A)dd new project\n- (U)pdate project\n- (Q)uit")
+DEFAULT_FILENAME = "projects.txt"
 
 
 def main():
     """Run a program that load and save a data file and use a list of Project objects."""
-    projects = []  # Initialised to avoid warning in line 30
+    projects = load_projects(DEFAULT_FILENAME)
     print(MENU)
 
     choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":
-            in_filename = get_valid_filename()
-            data = load_projects(in_filename)
-            # Nested list with Project objects from load_projects data
-            projects = [Project(name, start_date, int(priority), float(cost_estimate), float(completion_percentage))
-                        for name, start_date, priority, cost_estimate, completion_percentage in data]
-            print(f"{len(projects)} projects loaded.")
+            filename = get_valid_filename()
+            data = load_projects(filename)
+
         elif choice == "S":
             out_filename = get_valid_filename()
             save_projects(projects, out_filename)
@@ -44,6 +42,7 @@ def main():
             print("Invalid choice!")
         print(MENU)
         choice = input(">>> ").upper()
+    save_projects(projects, filename)
     print("Finished.")
 
 
@@ -63,13 +62,20 @@ def get_valid_filename():
 
 def load_projects(filename):
     """Load projects from file."""
-    data = []
+    projects = []
     with open(filename, 'r') as in_file:
         in_file.readline()  # Ignore header
         for line in in_file:
             parts = line.strip().split('\t')
-            data.append(parts)
-    return data
+            name = parts[0]
+            start_date = parts[1]
+            priority = int(parts[2])
+            cost_estimate = float(parts[3])
+            completion_percentage = float(parts[4])
+            projects.append(Project(name, start_date, priority, cost_estimate, completion_percentage))
+
+        print(f"{len(projects)} projects loaded.")
+    return projects
 
 
 def save_projects(projects, filename):
