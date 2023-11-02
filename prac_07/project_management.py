@@ -7,6 +7,7 @@ Actual time: 118 mins
 
 import datetime
 from prac_07.project import Project
+from operator import attrgetter
 
 MENU = ("- (L)oad projects\n- (S)ave projects\n- (D)isplay projects\n- (F)ilter projects by date\n"
         "- (A)dd new project\n- (U)pdate project\n- (Q)uit")
@@ -120,10 +121,12 @@ def display_projects(projects):
 
 def get_valid_date_string():
     """Get a valid date string in the 'dd/mm/yyyy' format."""
-    while True:
+    is_valid_date_string = False
+    while not is_valid_date_string:
         date_string = input("Enter a date (dd/mm/yyyy): ")
         try:
             date = datetime.datetime.strptime(date_string, '%d/%m/%Y').date()
+            is_valid_date_string = True
             return date.strftime('%d/%m/%Y')
         except ValueError:
             print("Invalid date format. Please use the 'dd/mm/yyyy' format.")
@@ -132,6 +135,7 @@ def get_valid_date_string():
 def filter_projects_by_date(projects, filter_date_string):
     """Filter projects by date."""
     filtered_projects = []
+    date_to_filtered_project = {}
 
     print(f"----Showing projects from {filter_date_string}----")
     filter_date = datetime.datetime.strptime(filter_date_string, '%d/%m/%Y').date()
@@ -141,9 +145,10 @@ def filter_projects_by_date(projects, filter_date_string):
 
         if project_date >= filter_date:
             filtered_projects.append(project)
+            date_to_filtered_project[project_date] = project
 
-    for project in filtered_projects:
-        print(project)
+    for date, filtered_project in sorted(date_to_filtered_project.items()):
+        print(filtered_project)
 
 
 def get_valid_project_details():
@@ -210,11 +215,12 @@ def update_project(projects):
             print("That project not in the list yet!")
         except ValueError:
             print("Must be a number!")
+    print(chosen_project)  # No problem with warning
 
     # Leave blank to retain existing values
     try:
         new_completion_percentage = float(input('New percentage: '))
-        chosen_project.completion_percentage = new_completion_percentage  # No problem with warning
+        chosen_project.completion_percentage = new_completion_percentage
     except ValueError:
         pass
     try:
