@@ -31,7 +31,7 @@ class Project:
 
     def __gt__(self, other):
         """Determine if a Project is > other Project based on priority."""
-        return self.priority == other.priority
+        return self.priority > other.priority
 
     def is_complete(self):
         """Determine if instance is complete based on percentage."""
