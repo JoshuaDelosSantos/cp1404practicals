@@ -69,7 +69,7 @@ def load_projects(filename):
     """Load projects from file."""
     projects = []
     try:
-        with open(filename, 'r') as in_file:
+        with open(filename, 'r', encoding="utf-8-sig") as in_file:
             in_file.readline()  # Ignore header
             for line in in_file:
                 parts = line.strip().split('\t')
@@ -94,7 +94,7 @@ def load_projects(filename):
 
 def save_projects(projects, filename):
     """Save projects into file."""
-    with open(filename, 'w') as out_file:
+    with open(filename, 'w', encoding="utf-8-sig") as out_file:
         print("Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage", file=out_file)
         for project in projects:
             print(f"{project.name}\t{project.start_date}\t{project.priority}\t{project.cost_estimate}\t"
@@ -186,6 +186,7 @@ def get_valid_project_details():
 
 
 def get_valid_priority_number():
+    """Get a valid priority number."""
     is_valid_priority = False
     while not is_valid_priority:
         try:
@@ -200,6 +201,7 @@ def get_valid_priority_number():
 
 
 def get_valid_completion_percentage():
+    """Get a valid completion percentage."""
     is_valid_completion_percentage = False
     while not is_valid_completion_percentage:
         try:
