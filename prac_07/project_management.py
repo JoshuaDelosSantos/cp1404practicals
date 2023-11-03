@@ -7,6 +7,7 @@ Actual time: 118 mins
 
 import datetime
 from prac_07.project import Project
+from operator import attrgetter
 
 MENU = ("- (L)oad projects\n- (S)ave projects\n- (D)isplay projects\n- (F)ilter projects by date\n"
         "- (A)dd new project\n- (U)pdate project\n- (Q)uit")
@@ -102,7 +103,7 @@ def display_projects(projects):
     incomplete_projects = []
     completed_projects = []
 
-    projects.sort()  # Sorted by priority
+    projects.sort(key=attrgetter('priority'))
 
     for project in projects:
         if project.is_complete():
@@ -112,8 +113,10 @@ def display_projects(projects):
 
     print("Incomplete projects:")
     for incomplete_project in incomplete_projects:
+        # Convert start_date date object to string for output requirement
         incomplete_project.start_date = incomplete_project.start_date.strftime('%d/%m/%Y')
         print(f"\t{incomplete_project}")
+        # Revert start_date string to date object
         incomplete_project.start_date = datetime.datetime.strptime(incomplete_project.start_date, '%d/%m/%Y').date()
 
     print("Completed projects:")
@@ -142,10 +145,13 @@ def display_filtered_projects_by_date(projects, filter_date_string):
 
     filter_date = datetime.datetime.strptime(filter_date_string, '%d/%m/%Y').date()
 
-    for project in projects:
-        project_date = datetime.datetime.strptime(project.start_date, '%d/%m/%Y').date()
-
-        # if project_date >= filter_date:
+    for project in sorted(projects, key=attrgetter('start_date')):
+        if project.start_date >= filter_date:
+            # Convert start_date date object to string for output requirement
+            project.start_date = project.start_date.strftime('%d/%m/%Y')
+            print(project)
+            # Revert start_date string to date object
+            project.start_date = datetime.datetime.strptime(project.start_date, '%d/%m/%Y').date()
 
 
 def get_valid_project_details():
