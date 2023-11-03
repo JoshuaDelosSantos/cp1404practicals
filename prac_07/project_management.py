@@ -12,6 +12,9 @@ from operator import attrgetter
 MENU = ("- (L)oad projects\n- (S)ave projects\n- (D)isplay projects\n- (F)ilter projects by date\n"
         "- (A)dd new project\n- (U)pdate project\n- (Q)uit")
 DEFAULT_FILENAME = "projects.txt"
+LOW_PRIORITY_NUMBER = 1
+HIGH_PRIORITY_NUMBER = 10
+COMPLETED_PROJECT_PERCENTAGE = 100
 
 
 def main():
@@ -164,16 +167,7 @@ def get_valid_project_details():
 
     start_date = get_valid_date_string()
 
-    is_valid_priority = False
-    while not is_valid_priority:
-        try:
-            priority = int(input("Priority (1-10): "))
-            if priority > 10 or priority < 1:
-                print("1 (Highest priority) - 10 (Lowest priority")
-            else:
-                is_valid_priority = True
-        except ValueError:
-            print("Priority must be an integer (1-10)")
+    priority = get_valid_priority_number()
 
     is_valid_cost_estimate = False
     while not is_valid_cost_estimate:
@@ -186,18 +180,37 @@ def get_valid_project_details():
         except ValueError:
             print("Must be a number")
 
+    completion_percentage = get_valid_completion_percentage()
+
+    return name, start_date, priority, cost_estimate, completion_percentage  # No problem with warning
+
+
+def get_valid_priority_number():
+    is_valid_priority = False
+    while not is_valid_priority:
+        try:
+            priority = int(input("Priority (1-10): "))
+            if priority > HIGH_PRIORITY_NUMBER or priority < LOW_PRIORITY_NUMBER:
+                print("1 (Highest priority) - 10 (Lowest priority")
+            else:
+                is_valid_priority = True
+        except ValueError:
+            print("Priority must be a number (1-10)")
+    return priority  # No problem with warning
+
+
+def get_valid_completion_percentage():
     is_valid_completion_percentage = False
     while not is_valid_completion_percentage:
         try:
             completion_percentage = float(input("Percent complete: "))
-            if completion_percentage < 0 or completion_percentage > 100:
+            if completion_percentage < 0 or completion_percentage > COMPLETED_PROJECT_PERCENTAGE:
                 print("Must be 0-100")
             else:
                 is_valid_completion_percentage = True
         except ValueError:
             print("Percent must be a number")
-
-    return name, start_date, priority, cost_estimate, completion_percentage  # No problem with warning
+    return completion_percentage  # No problem with warning
 
 
 def update_project(projects):
@@ -220,18 +233,25 @@ def update_project(projects):
             print("Must be a number!")
     print(chosen_project)  # No problem with warning
 
-    # Leave blank to retain existing values
-    try:
-        new_completion_percentage = float(input('New percentage: '))
-        chosen_project.completion_percentage = new_completion_percentage
-    except ValueError:
+    new_completion_percentage = input('New percentage: ')
+    if new_completion_percentage == "":  # User to leave blank to retain existing value
         pass
-    try:
-        new_priority = int(input("New Priority: "))
-        chosen_project.priority = new_priority
+    elif float(new_completion_percentage) < 0 or float(new_completion_percentage) > COMPLETED_PROJECT_PERCENTAGE:
+        print("Number must be (0-100)")
+        chosen_project.completion_percentage = get_valid_completion_percentage()
+    else:  # For special character input
+        print("Number must be (0-100)")
+        chosen_project.completion_percentage = get_valid_completion_percentage()
 
-    except ValueError:
+    new_priority = input("New Priority: ")
+    if new_priority == "":  # User to leave blank to retain existing value
         pass
+    elif int(new_priority) < LOW_PRIORITY_NUMBER or int(new_priority) > HIGH_PRIORITY_NUMBER:
+        print("Must be a number (1-10)")
+        chosen_project.priority = get_valid_priority_number()
+    else:  # For special character input
+        print("Must be a number (1-10)")
+        chosen_project.priority = get_valid_priority_number()
 
 
 main()
