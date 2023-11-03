@@ -29,11 +29,10 @@ def main():
             out_filename = get_valid_filename()
             save_projects(projects, out_filename)
         elif choice == "D":
-            projects.sort()  # Sorted by priority
             display_projects(projects)
         elif choice == "F":
             filter_date_string = get_valid_date_string()
-            filter_projects_by_date(projects, filter_date_string)
+            display_filtered_projects_by_date(projects, filter_date_string)
         elif choice == "A":
             name, start_date, priority, cost_estimate, completion_percentage = get_valid_project_details()
             projects.append(Project(name, start_date, priority, cost_estimate, completion_percentage))
@@ -103,7 +102,10 @@ def display_projects(projects):
     incomplete_projects = []
     completed_projects = []
 
+    projects.sort()  # Sorted by priority
+
     for project in projects:
+        project.start_date = project.start_date.strftime('%d/%m/%Y')
         if project.is_complete():
             completed_projects.append(project)
         else:
@@ -131,22 +133,22 @@ def get_valid_date_string():
             print("Invalid date format. Please use the 'dd/mm/yyyy' format.")
 
 
-def filter_projects_by_date(projects, filter_date_string):
+def display_filtered_projects_by_date(projects, filter_date_string):
     """Filter projects by date."""
-    filtered_projects = []
-    date_to_filtered_project = {}
+    filtered_projects_to_date = {}
 
     print(f"----Showing projects from {filter_date_string}----")
+
     filter_date = datetime.datetime.strptime(filter_date_string, '%d/%m/%Y').date()
 
     for project in projects:
         project_date = datetime.datetime.strptime(project.start_date, '%d/%m/%Y').date()
 
         if project_date >= filter_date:
-            filtered_projects.append(project)
-            date_to_filtered_project[project_date] = project
-
-    for date, filtered_project in sorted(date_to_filtered_project.items()):
+            filtered_projects_to_date[f"{project.name}, start: {project.start_date}, "
+                                      f"priority {project.priority}, estimate: ${project.cost_estimate:,.2f}"
+                                      f", completion: {project.completion_percentage}%"] = project_date
+    for filtered_project in sorted(filtered_projects_to_date):
         print(filtered_project)
 
 
@@ -174,7 +176,7 @@ def get_valid_project_details():
     is_valid_cost_estimate = False
     while not is_valid_cost_estimate:
         try:
-            cost_estimate = float(input("Cots estimate: $"))
+            cost_estimate = float(input("Cost estimate: $"))
             if cost_estimate < 0:
                 print("It must cost you something or must be free (0)")
             else:
