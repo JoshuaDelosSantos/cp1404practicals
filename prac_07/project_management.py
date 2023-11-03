@@ -105,19 +105,22 @@ def display_projects(projects):
     projects.sort()  # Sorted by priority
 
     for project in projects:
-        project.start_date = project.start_date.strftime('%d/%m/%Y')
         if project.is_complete():
             completed_projects.append(project)
         else:
             incomplete_projects.append(project)
 
     print("Incomplete projects:")
-    for project in incomplete_projects:
-        print(f"\t{project}")
+    for incomplete_project in incomplete_projects:
+        incomplete_project.start_date = incomplete_project.start_date.strftime('%d/%m/%Y')
+        print(f"\t{incomplete_project}")
+        incomplete_project.start_date = datetime.datetime.strptime(incomplete_project.start_date, '%d/%m/%Y').date()
 
     print("Completed projects:")
-    for project in completed_projects:
-        print(f"\t{project}")
+    for completed_project in completed_projects:
+        completed_project.start_date = completed_project.start_date.strftime('%d/%m/%Y')
+        print(f"\t{completed_project}")
+        completed_project.start_date = datetime.datetime.strptime(completed_project.start_date, '%d/%m/%Y').date()
 
 
 def get_valid_date_string():
@@ -135,8 +138,6 @@ def get_valid_date_string():
 
 def display_filtered_projects_by_date(projects, filter_date_string):
     """Filter projects by date."""
-    filtered_projects_to_date = {}
-
     print(f"----Showing projects from {filter_date_string}----")
 
     filter_date = datetime.datetime.strptime(filter_date_string, '%d/%m/%Y').date()
@@ -144,12 +145,7 @@ def display_filtered_projects_by_date(projects, filter_date_string):
     for project in projects:
         project_date = datetime.datetime.strptime(project.start_date, '%d/%m/%Y').date()
 
-        if project_date >= filter_date:
-            filtered_projects_to_date[f"{project.name}, start: {project.start_date}, "
-                                      f"priority {project.priority}, estimate: ${project.cost_estimate:,.2f}"
-                                      f", completion: {project.completion_percentage}%"] = project_date
-    for filtered_project in sorted(filtered_projects_to_date):
-        print(filtered_project)
+        # if project_date >= filter_date:
 
 
 def get_valid_project_details():
