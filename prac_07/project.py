@@ -2,7 +2,7 @@
 prac_07 - project.py
 
 Estimated time: 60 mins
-Actual time: 10 mins
+Actual time: 15 mins
 """
 
 import datetime
@@ -24,17 +24,17 @@ class Project:
             f", completion: {self.completion_percentage}%")
 
     def __lt__(self, other):
-        """Determine if a Project is < other Project based on priority."""
-        return self.priority < other.priority
+        """Determine if a Project is < other Project based on priority or start date."""
+        return self.priority < other.priority or self.start_date < other.start_date
 
     def __eq__(self, other):
-        """Determine if a Project is equal to other Project based on priority."""
-        return self.priority == other.priority
+        """Determine if a Project is equal to other Project based on priority or start date."""
+        return self.priority == other.priority or self.start_date < other.start_date
 
     def __gt__(self, other):
-        """Determine if a Project is > other Project based on priority."""
-        return self.priority > other.priority
+        """Determine if a Project is > other Project based on priority or start date."""
+        return self.priority > other.priority or self.start_date < other.start_date
 
     def is_complete(self):
-        """Determine if instance is complete based on percentage."""
+        """Determine if instance is complete based on percentage or start date."""
         return self.completion_percentage == 100
