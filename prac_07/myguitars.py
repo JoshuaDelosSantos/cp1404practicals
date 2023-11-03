@@ -11,8 +11,7 @@ FILENAME = "guitars.csv"
 
 def main():
     """Read guitars from a file and store them in a list of Guitar objects."""
-    parts = load_data_from_file(FILENAME)
-    guitars = [Guitar(name, year, cost) for name, year, cost in parts]
+    guitars = load_data_from_file(FILENAME)
     guitars.sort()
     for guitar in guitars:
         print(guitar)
@@ -39,7 +38,7 @@ def load_data_from_file(filename):
             year = int(row[1])
             cost = float(row[2])
             parts.append([row[0], year, cost])
-    return parts
+    return [Guitar(name, year, cost) for name, year, cost in parts]
 
 
 def save_guitars_to_file(filename, guitars):
