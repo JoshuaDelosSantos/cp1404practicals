@@ -22,7 +22,7 @@ class ConvertMilesToKilometresAPP(App):
         Window.size = (500, 400)
         self.title = "Convert Miles to Kilometres"
         self.root = Builder.load_file('convert_miles_km.kv')
-        self.message = "Type in the field & press Enter"
+        self.message = "Type in the field & press convert"
         return self.root
 
     def handle_calculate(self, value):
@@ -33,21 +33,10 @@ class ConvertMilesToKilometresAPP(App):
         except ValueError:
             pass
 
-    def handle_up(self, value):
+    def handle_increment(self, value, increment):
         """Handle calculation for Up"""
-        try:
-            result = float(value) + 1
-            self.root.ids.input_number.text = str(result)
-        except ValueError:
-            pass
-
-    def handle_down(self, value):
-        """Handle calculation for Down"""
-        try:
-            result = float(value) - 1
-            self.root.ids.input_number.text = str(result)
-        except ValueError:
-            pass
+        result = float(value) + increment
+        self.root.ids.input_number.text = str(result)
 
     def handle_update(self):
         """Handle changes to the text input by updating the model from the view."""
