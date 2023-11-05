@@ -25,18 +25,24 @@ class ConvertMilesToKilometresAPP(App):
         self.message = "Type in the field & press convert"
         return self.root
 
-    def handle_calculate(self, value):
+    def handle_calculate(self):
         """Handle calculation for converting miles to kilometres."""
         try:
-            result = float(value) * MILE_TO_KILOMETRE_RATE
+            result = float(self.root.ids.input_number.text) * MILE_TO_KILOMETRE_RATE
             self.root.ids.output_label.text = str(result)
         except ValueError:
-            pass
+            self.root.ids.output_label.text = str(0.0)
 
-    def handle_increment(self, value, increment):
+    def handle_increment(self, increment):
         """Handle calculation for Up"""
-        result = float(value) + increment
-        self.root.ids.input_number.text = str(result)
+        try:
+            if self.root.ids.input_number.text == '':
+                result = 0.0 + increment
+            else:
+                result = float(self.root.ids.input_number.text) + increment
+            self.root.ids.input_number.text = str(result)
+        except ValueError:
+            self.root.ids.output_label.text = str(0.0)
 
     def handle_update(self):
         """Handle changes to the text input by updating the model from the view."""
