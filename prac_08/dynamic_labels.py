@@ -1,6 +1,8 @@
 """
+
 CP1404 prac_08: dynamic_labels.py
 Joshua Delos Santos 05/11/2023
+
 """
 
 from kivy.app import App
