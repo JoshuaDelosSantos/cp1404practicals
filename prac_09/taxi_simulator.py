@@ -29,8 +29,8 @@ def main():
             pass
         else:
             print("Invalid choice!")
-        bill += current_taxi.get_fare()
-        print(f"Bill to date: {bill}")
+        bill += get_bill_to_date(current_taxi)
+        print(f"Bill to date: ${bill:.2f}")
         print(MENU)
         choice = input(">>> ").lower()
 
@@ -51,6 +51,15 @@ def choose_taxi(taxis):
         print("Invalid number!")
     except ValueError:
         print("Must be a number!")
+
+
+def get_bill_to_date(current_taxi):
+    """Get bill to date."""
+    try:
+        bill = current_taxi.get_fare()
+    except AttributeError:
+        bill = 0
+    return bill
 
 
 main()
