@@ -24,11 +24,13 @@ def main():
     while choice != "q":
         if choice == "c":
             display_taxis(taxis)
-            choose_taxi(taxis)
+            current_taxi = choose_taxi(taxis)
         elif choice == "d":
             pass
         else:
             print("Invalid choice!")
+        bill += current_taxi.get_fare()
+        print(f"Bill to date: {bill}")
         print(MENU)
         choice = input(">>> ").lower()
 
@@ -40,7 +42,15 @@ def display_taxis(taxis):
 
 
 def choose_taxi(taxis):
-    pass
+    """Choose taxi from taxis and set current taxi."""
+    try:
+        taxi_choice = int(input("Choose taxi: "))
+        current_taxi = taxis[taxi_choice]
+        return current_taxi
+    except IndexError:
+        print("Invalid number!")
+    except ValueError:
+        print("Must be a number!")
 
 
 main()
