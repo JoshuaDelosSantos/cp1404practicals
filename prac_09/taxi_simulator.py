@@ -26,7 +26,7 @@ def main():
             display_taxis(taxis)
             current_taxi = choose_taxi(taxis)
         elif choice == "d":
-            pass
+            drive_taxi(current_taxi)
         else:
             print("Invalid choice!")
         bill += get_bill_to_date(current_taxi)
@@ -45,8 +45,7 @@ def choose_taxi(taxis):
     """Choose taxi from taxis and set current taxi."""
     try:
         taxi_choice = int(input("Choose taxi: "))
-        current_taxi = taxis[taxi_choice]
-        return current_taxi
+        return taxis[taxi_choice]
     except IndexError:
         print("Invalid number!")
     except ValueError:
@@ -60,6 +59,15 @@ def get_bill_to_date(current_taxi):
     except AttributeError:
         bill = 0
     return bill
+
+
+def drive_taxi(current_taxi):
+    """Drive current taxi."""
+    if not current_taxi:
+        print("You need to choose a taxi before you can drive")
+    else:
+        distance = int(input("Drive how far? "))
+        current_taxi.drive(distance)
 
 
 main()
