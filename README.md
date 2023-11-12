@@ -16,5 +16,5 @@ This repository includes code for weekly practicals of CP1404.
 
 ## Links
 
-- CP1404 Practicals instructions repo: https://github.com/CP1404/Practicals/tree/master 
-- Programming Patterns page: https://github.com/CP1404/Starter/wiki/Programming-Patterns
+- [CP1404 Practicals instructions repo](https://github.com/CP1404/Practicals/tree/master) 
+- [Programming Patterns page](https://github.com/CP1404/Starter/wiki/Programming-Patterns)
