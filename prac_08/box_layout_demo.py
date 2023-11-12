@@ -1,3 +1,9 @@
+"""
+CP1404 prac_08: box_layout_demo.py
+Joshua Delos Santos 05/11/2023
+"""
+
+
 from kivy.app import App
 from kivy.lang import Builder
 
