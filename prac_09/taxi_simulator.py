@@ -27,12 +27,17 @@ def main():
             current_taxi = choose_taxi(taxis)
         elif choice == "d":
             drive_taxi(current_taxi)
+            bill += get_taxi_bill(current_taxi)
         else:
             print("Invalid choice!")
-        bill += get_bill_to_date(current_taxi)
+
         print(f"Bill to date: ${bill:.2f}")
         print(MENU)
         choice = input(">>> ").lower()
+
+    print(f"Total trip cost: ${bill:.2f}")
+    print("Taxis are now:")
+    display_taxis(taxis)
 
 
 def display_taxis(taxis):
@@ -47,12 +52,12 @@ def choose_taxi(taxis):
         taxi_choice = int(input("Choose taxi: "))
         return taxis[taxi_choice]
     except IndexError:
-        print("Invalid number!")
+        print("Invalid taxi choice")
     except ValueError:
         print("Must be a number!")
 
 
-def get_bill_to_date(current_taxi):
+def get_taxi_bill(current_taxi):
     """Get bill to date."""
     try:
         bill = current_taxi.get_fare()
@@ -68,6 +73,8 @@ def drive_taxi(current_taxi):
     else:
         distance = int(input("Drive how far? "))
         current_taxi.drive(distance)
+        current_bill = get_taxi_bill(current_taxi)
+        print(f"Your {current_taxi.name} trip cost you ${current_bill:.2f}")
 
 
 main()
