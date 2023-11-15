@@ -7,6 +7,8 @@ import random
 from prac_09.car import Car
 from random import randint
 
+RELIABILITY_THRESHOLD = 100
+
 
 class UnreliableCar(Car):
     """UnreliableCar class that inherits from Car class."""
@@ -21,7 +23,7 @@ class UnreliableCar(Car):
 
     def drive(self, distance):
         """Drive the car if generated random number is less than reliability."""
-        if randint(0, 100) < self.reliability:
+        if randint(0, RELIABILITY_THRESHOLD) < self.reliability:
             super().drive(distance)
         else:
             return distance
