@@ -8,7 +8,7 @@ import wikipedia
 try:
     search_phrase = input("Enter a search phrase: ")
     while search_phrase != "":
-        wikipedia_page = wikipedia.page(search_phrase)
+        wikipedia_page = wikipedia.page(search_phrase, auto_suggest=False)
         print(wikipedia_page.title)
         print(wikipedia_page.summary)
         print(wikipedia_page.url)
